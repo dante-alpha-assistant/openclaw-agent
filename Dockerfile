@@ -27,5 +27,5 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
     CMD curl -sf http://localhost:18789/health || exit 1
 
 # Start OpenClaw gateway
-# OpenClaw gateway runs in foreground by default when started directly
-CMD ["openclaw", "gateway", "--bind", "lan"]
+# Start OpenClaw gateway (config sets bind/mode)
+CMD ["openclaw", "gateway"]
