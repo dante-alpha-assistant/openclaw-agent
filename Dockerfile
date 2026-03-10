@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install OpenClaw globally
-RUN npm install -g openclaw@latest
+RUN npm install -g openclaw@2026.3.8
 
 # Install Claude Code CLI (for coding sub-agents)
 RUN npm install -g @anthropic-ai/claude-code@latest 2>/dev/null || true
