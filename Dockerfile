@@ -1,9 +1,20 @@
 FROM node:22-bookworm-slim
 
-# System deps
+# System deps + Chromium dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git curl ca-certificates openssh-client jq procps \
+    # Chromium and its dependencies for headless browser
+    chromium \
+    fonts-liberation fonts-noto-color-emoji \
+    libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
+    libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 libgbm1 \
+    libpango-1.0-0 libasound2 \
     && rm -rf /var/lib/apt/lists/*
+
+# Set Chromium env vars for OpenClaw/Playwright
+ENV CHROME_BIN=/usr/bin/chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Install OpenClaw globally
 RUN npm install -g openclaw@2026.3.8
@@ -27,5 +38,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
     CMD curl -sf http://localhost:18789/health || exit 1
 
 # Start OpenClaw gateway
-# Start OpenClaw gateway (config sets bind/mode)
 CMD ["openclaw", "gateway"]
